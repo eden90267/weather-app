@@ -5,19 +5,34 @@ function zipUrl(zip) {
   return `${API_STEM}q=${zip}&units=imperial&APPID=${WEATHER_API_KEY}`;
 }
 
-function fetchForecast(zip) {
-  return fetch(zipUrl(zip))
+function latLonUrl(lat, lon) {
+  return `${API_STEM}lat=${lat}&lon=${lon}&units=imperial&APPID=${WEATHER_API_KEY}`;
+}
+
+function fetchForecast(url) {
+  return fetch(url)
     .then(response => response.json())
     .then(responseJSON => {
       return {
         main: responseJSON.weather[0].main,
         description: responseJSON.weather[0].description,
         temp: responseJSON.main.temp
-      }
+      };
     })
     .catch(error => {
       console.error(error);
     });
 }
 
-export default {fetchForecast};
+function fetchZipForecast(zip) {
+  return fetchForecast(zipUrl(zip));
+}
+
+function fetchLatLonForecast(lat, lon) {
+  return fetchForecast(latLonUrl(lat, lon));
+}
+
+export default {
+  fetchZipForecast,
+  fetchLatLonForecast
+};

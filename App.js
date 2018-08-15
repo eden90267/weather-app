@@ -2,7 +2,8 @@ import React from 'react';
 import {StyleSheet, Text, View, TextInput, Image, ImageBackground} from 'react-native';
 
 import Forecast from "./Forecast";
-import OpenWeatherMap from './open_weather_map';
+import OpenWeatherMap from './modules/open_weather_map';
+import LocationButton from "./components/LocationButton";
 
 export default class App extends React.Component {
 
@@ -15,6 +16,12 @@ export default class App extends React.Component {
     let zip = event.nativeEvent.text;
     OpenWeatherMap.fetchForecast(zip).then(forecast => {
       console.log(forecast);
+      this.setState({forecast});
+    })
+  };
+
+  _getForecastForCoords = (lat, lon) => {
+    OpenWeatherMap.fetchLatLonForecast(lat, lon).then(forecast => {
       this.setState({forecast});
     })
   };
@@ -47,6 +54,7 @@ export default class App extends React.Component {
                   onSubmitEditing={event => this._handleTextChange(event)}/>
               </View>
             </View>
+            <LocationButton onGetCoords={this._getForecastForCoords}/>
             {content}
           </View>
         </ImageBackground>
