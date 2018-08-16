@@ -4,6 +4,7 @@ import {StyleSheet, Text, View, TextInput, Image, ImageBackground} from 'react-n
 import Forecast from "./Forecast";
 import OpenWeatherMap from './modules/open_weather_map';
 import LocationButton from "./components/LocationButton";
+import PhotoBackdrop from "./components/PhotoBackdrop";
 
 export default class App extends React.Component {
 
@@ -39,10 +40,7 @@ export default class App extends React.Component {
     }
     return (
       <View style={styles.container}>
-        <ImageBackground
-          source={require('./flowers.png')}
-          imageStyle={{resizeMode: 'cover'}}
-          style={styles.backdrop}>
+        <PhotoBackdrop>
           <View style={styles.overlay}>
             <View style={styles.row}>
               <Text style={styles.mainText}>
@@ -57,7 +55,7 @@ export default class App extends React.Component {
             <LocationButton onGetCoords={this._getForecastForCoords}/>
             {content}
           </View>
-        </ImageBackground>
+        </PhotoBackdrop>
       </View>
     );
   }
